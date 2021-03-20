@@ -5,7 +5,7 @@ from flask_login import UserMixin, AnonymousUserMixin
 from . import db
 from . import login_manager
 
-import datetime
+from datetime import datetime
 
 class Permission:
     FOLLOW = 1
