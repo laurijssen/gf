@@ -191,5 +191,4 @@ login_manager.anonymous_user = AnonymousUser
 @login_manager.user_loader
 def load_user(user_id):
     u = User.query.get(int(user_id))
-    print('test ' + str(u.role))
     return u
