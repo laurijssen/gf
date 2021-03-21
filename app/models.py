@@ -65,6 +65,7 @@ class Role(db.Model):
         self.permissions = 0
 
     def has_permission(self, perm):
+        print(self.permissions)
         return self.permissions & perm == perm
 
 class User(db.Model, UserMixin):
@@ -84,7 +85,11 @@ class User(db.Model, UserMixin):
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
+        print('email ' + self.email)
         if self.role is None:
+
+            print('email ' + self.email)
+
             if self.email == current_app.config['GEOFRIENDS_ADMIN']:
                 self.role = Role.query.filter_by(name='Administrator').first()
             if self.role is None:
@@ -185,4 +190,6 @@ login_manager.anonymous_user = AnonymousUser
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    u = User.query.get(int(user_id))
+    print('test ' + str(u.role))
+    return u
