@@ -4,8 +4,9 @@ from flask import current_app
 from flask_login import UserMixin, AnonymousUserMixin
 from . import db
 from . import login_manager
-
 from datetime import datetime
+
+import hashlib
 
 class Permission:
     FOLLOW = 1
@@ -99,6 +100,11 @@ class User(db.Model, UserMixin):
         self.last_seen = datetime.utcnow()
         db.session.add(self)
         db.session.commit()
+
+    def gravatar(self, size=100, default='identicon', rating='g'):
+        url = 'https://secure.gravatar.com/avatar'
+        hash = hashlib.md5(self.email.lower().encode('utf-8')).hexdigest()
+        return '{}/{}?s={}&d={}&r={}'.format(url, hash, size, default, rating)
 
     def can(self, perm):
         return self.role is not None and self.role.has_permission(perm)
