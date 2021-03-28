@@ -1,18 +1,3 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
-
-{% block title %}Geofriends{% endblock %}
-
-{% block page_content %}
-<div class="page-header">
-    <h1>{% if current_user.is_authenticated %}Welcome back {{ current_user.username }}{% else %}Please login to join the discussion{% endif %}!</h1>
-</div>
-<div>
-    {% if current_user.can(Permission.WRITE) %}
-    {{ wtf.quick_form(form) }}
-    {% endif %}
-</div>
-<hr/>
 <ul class="posts">
     {% for post in posts %}
     <li class="post">
@@ -29,4 +14,3 @@
     </li>
     {% endfor %}
 </ul>
-{% endblock %}
