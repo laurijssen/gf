@@ -14,6 +14,7 @@ class Config:
     MAIL_SENDER = 'GFAdmin geofriends@example.com'
     ADMIN = os.environ.get('ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    POSTS_PER_PAGE = os.environ.get('POSTS_PER_PAGE')
 
     @staticmethod
     def init_app(app):
