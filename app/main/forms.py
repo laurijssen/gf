@@ -1,13 +1,14 @@
 from flask_wtf import FlaskForm
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
+from flask_pagedown.fields import PageDownField
 from wtforms import StringField, SubmitField, TextAreaField, BooleanField, SelectField
 from wtforms.validators import DataRequired, Length, Regexp, Email
 
 from ..models import User, Role
 
 class PostForm(FlaskForm):
-    body = TextAreaField('What\'s on your mind?', validators=[DataRequired()])
+    body = PageDownField('What\'s on your mind?', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 class NameForm(FlaskForm):
