@@ -217,6 +217,14 @@ class User(db.Model, UserMixin):
         return s.dumps({'reset': self.id}).decode('utf-8')
 
     @staticmethod
+    def add_self_follows():
+        for user in User.query.all():
+            if not user.is_following(user):
+                user.follow(user)
+                db.session.add(user)
+                db.session.commit()
+
+    @staticmethod
     def reset_password(token, new_password):
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
@@ -252,6 +260,11 @@ class User(db.Model, UserMixin):
         self.avatar_hash = self.gravatar_hash()
         db.session.add(self)
         return True
+
+    @property
+    def followed_posts(self):
+        return Post.query.join(Follow, Follow.followed_id == Post.author_id) \
+            .filter(Follow.follower_id == self.id)
 
 class AnonymousUser(AnonymousUserMixin):
     def can(self, permissions):
