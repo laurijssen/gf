@@ -7,6 +7,10 @@ from wtforms.validators import DataRequired, Length, Regexp, Email
 
 from ..models import User, Role
 
+class CommentForm(FlaskForm):
+    body = StringField('', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
 class PostForm(FlaskForm):
     body = PageDownField('What\'s on your mind?', validators=[DataRequired()])
     submit = SubmitField('Submit')

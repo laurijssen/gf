@@ -16,6 +16,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     POSTS_PER_PAGE = os.environ.get('POSTS_PER_PAGE')
     FOLLOWERS_PER_PAGE = os.environ.get('FOLLOWERS_PER_PAGE')
+    COMMENTS_PER_PAGE = os.environ.get('COMMENTS_PER_PAGE')
 
     @staticmethod
     def init_app(app):
