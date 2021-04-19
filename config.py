@@ -18,6 +18,9 @@ class Config:
     FOLLOWERS_PER_PAGE = os.environ.get('FOLLOWERS_PER_PAGE')
     COMMENTS_PER_PAGE = os.environ.get('COMMENTS_PER_PAGE')
 
+    SQLALCHEMY_RECORD_QUERIES = True
+    SLOW_DB_QUERY_TIME = 0.5
+
     @staticmethod
     def init_app(app):
         pass
