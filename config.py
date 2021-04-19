@@ -65,10 +65,24 @@ class ProductionConfig(Config):
             app.logger.addHandler(mail_handler)
             app.logger.error(' error')
     
+class HerokuConfig(ProductionConfig):
+    @classmethod
+    def init_app(cls, app):
+        ProductionConfig.init_app(app)
+
+        import logging
+
+        from loggin import StreamHandler
+
+        file_handler = StreamHandler()
+        file_handler.setLevel(loggin.INFO)
+        app.logger.addHandler(file_handler)
+
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
     'production': ProductionConfig,
+    'heroku': HerokuConfig,
     'default': DevelopmentConfig
 }
 
