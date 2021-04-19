@@ -17,6 +17,7 @@ class Config:
     POSTS_PER_PAGE = os.environ.get('POSTS_PER_PAGE')
     FOLLOWERS_PER_PAGE = os.environ.get('FOLLOWERS_PER_PAGE')
     COMMENTS_PER_PAGE = os.environ.get('COMMENTS_PER_PAGE')
+    SSL_REDIRECT = False
 
     SQLALCHEMY_RECORD_QUERIES = True
     SLOW_DB_QUERY_TIME = 0.5
@@ -63,20 +64,25 @@ class ProductionConfig(Config):
 
             mail_handler.setLevel(logging.ERROR)
             app.logger.addHandler(mail_handler)
-            app.logger.error(' error')
     
 class HerokuConfig(ProductionConfig):
+    SSL_REDIRECT = True if os.environ.get('DYNO') else False
+
     @classmethod
     def init_app(cls, app):
         ProductionConfig.init_app(app)
 
         import logging
 
-        from loggin import StreamHandler
+        from logging import StreamHandler
 
         file_handler = StreamHandler()
-        file_handler.setLevel(loggin.INFO)
+        file_handler.setLevel(logging.INFO)
         app.logger.addHandler(file_handler)
+
+        from werkzeug.middleware.proxy_fix import ProxyFix
+
+        app.wsgi_app = ProxyFix(app.wsgi_app)
 
 config = {
     'development': DevelopmentConfig,
